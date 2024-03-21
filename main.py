@@ -21,6 +21,9 @@ def qsort(a, pivot_fn):
     right = [x for x in a if x > piv]
     mid = [x for x in a if x == piv]
 
+    if not left or not right:
+        return mid if not left else left + mid if not right else right + mid
+
     return qsort(left, pivot_fn) + mid + qsort(right, pivot_fn)
 
 def random_pivot(a):  
@@ -71,7 +74,7 @@ def compare_sort(sizes=[100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 10
         # create list in ascending order
         mylist = list(range(size))
         # shuffles list if needed
-        #random.shuffle(mylist)
+        random.shuffle(mylist)
         result.append([
             len(mylist),
             time_search(qsort_fixed_pivot, mylist),
@@ -89,11 +92,7 @@ def print_results(results):
                             tablefmt="github"))
 
 def test_print():
-    print("Comparing on sorted lists:\n")
-    print_results(compare_sort(shuf=0))
-    print("\n\n")
-    print("Comparing on shuffled lists:\n")
-    print_results(compare_sort(shuf=1))
+    print_results(compare_sort())
 
 
 test_print()
